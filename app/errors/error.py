@@ -6,9 +6,9 @@ app = FastAPI()
 class StudentNotFound(Exception):
     pass
 
-@app.exception_handler()
-async def student_not_found ( req: Request, exc: StudentNotFound):
+@app.exception_handler(StudentNotFound)
+async def student_not_found_exception_handler(request: Request, exc: StudentNotFound):
     return JSONResponse(
-        status_code=status.HTTP_404_NOT_FOUND,
-        content="Student Not Found"
+        status_code=404,
+        content={"message": f"Student not found error: {str(exc)}"},
     )

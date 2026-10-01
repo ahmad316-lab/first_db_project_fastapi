@@ -12,9 +12,19 @@ student_router = APIRouter()
 def create_student(student: StudentCreate, db : Session = Depends(get_db)):
     return contoller.create_student(student, db)
 
-@student_router.get("/students", status_code=status.HTTP_200_OK)
-def get_students(db : Session = Depends(get_db)):
-    return contoller.get_students(db)
+@student_router.get("/students")
+def get_students(
+    search: str | None = None,
+    min_age: int | None = None,
+    max_age: int | None = None,
+    db: Session = Depends(get_db)
+):
+    return contoller.get_students(
+        search,
+        min_age,
+        max_age,
+        db
+    )
 
 @student_router.get("/students/{st_id}", status_code=status.HTTP_200_OK)
 def get_student_by_id(st_id: int, db : Session = Depends(get_db)):
